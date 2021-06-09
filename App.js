@@ -1,21 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+import * as React from 'react';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
+import {Header} from 'react-native-elements'
+export default class App extends React.Component{
+    constructor()
+    {
+        super()
+        this.state={
+            text:'',
+            displayText:''
+        }
+    }
+    render()
+    {
+        return(<View>
+            <Header centerComponent={{text:'MONKEY CHUNKY'}}></Header>
+            <TextInput style={{borderWidth:20,marginTop:30}} onChangeText={(data)=>{
+                    this.setState({text:data})
+            }}/>
+            <TouchableOpacity onPress={()=>{
+                this.setState({displayText:this.state.text})
+            }}><Text>GO</Text></TouchableOpacity>
+            <Text>{this.state.displayText}</Text>
+        </View>)
+    }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
