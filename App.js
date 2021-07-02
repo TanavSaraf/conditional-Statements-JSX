@@ -6,6 +6,7 @@ import {
   View,
   TouchableOpacity,
   Image,
+  Alert
 } from "react-native";
 /*import { Header } from "react-native-elements";
 <Header centerComponent={{ text: "MONKEY CHUNKY" }}></Header>*/
@@ -22,7 +23,7 @@ export default class App extends React.Component {
     };
   }
   render() {
-    console.log(this.state.phonemes);
+    
     return (
       <View>
         <Image source={require('./assets/Untitled.png')} style={styles.image} />
@@ -35,15 +36,19 @@ export default class App extends React.Component {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            this.setState({ chunks: db[this.state.text].chunks });
-            this.setState({ phonemes: db[this.state.text].phones });
+            var ln=this.state.text.length
+            var word=this.state.text.trim().toLowerCase()
+            ln>0?(
+              db[word]?(this.setState({ chunks: db[word].chunks, phonemes: db[word].phones })):(Alert.alert('SORRY WE WOULD SOON FIND THIS WORD FOR YOU'))
+            ):(Alert.alert('enter a word'))
+            console.log(ln)
           }}
         >
           <Text>GO</Text>
         </TouchableOpacity>
         <View>
           {this.state.chunks.map((item, index) => (
-            <ChunkButton chunk={item} phonem={this.state.phonemes[index]} />
+            <ChunkButton chunk={item} phonem={this.state.phonemes[index]} buttonIndex={index} />
           ))}
         </View>
       </View>

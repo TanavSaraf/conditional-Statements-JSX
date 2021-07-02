@@ -3,6 +3,12 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Audio } from "expo-av";
 
 export default class ChunkButton extends Component {
+  constructor() {
+    super();
+    this.state = {
+      pressedButtonIndex: "",
+    };
+  }
   playSound = async (phonem) => {
     Audio.Sound.createAsync(
       {
@@ -17,27 +23,39 @@ export default class ChunkButton extends Component {
   render() {
     return (
       <TouchableOpacity
-        style={styles.button}
+        style={
+          this.state.pressedButtonIndex === this.props.buttonIndex
+            ? [styles.button, { backgroundColor: "red" }]
+            : styles.button
+        }
         onPress={() => {
           this.playSound(this.props.phonem);
+          this.setState({ pressedButtonIndex: this.props.buttonIndex });
         }}
       >
-        <Text style={{ fontSize: 30, color: "white" }}>{this.props.chunk}</Text>
+        <Text
+          style={
+            this.state.pressedButtonIndex === this.props.buttonIndex
+              ? { fontSize: 30, color: "white" }
+              : { fontSize: 30, color: "black" }
+          }
+        >
+          {this.props.chunk}
+        </Text>
       </TouchableOpacity>
     );
   }
 }
 const styles = StyleSheet.create({
-    button: {
-      alignItems: "center",
-      alignSelf: "center",
-      marginTop:10,
-      width:'50%',
-      padding:10,
-      backgroundColor: "blue",
-      justifyContent: "center",
-      borderWidth: 2,
-      borderRadius: 10,
-    },
-  });
-  
+  button: {
+    alignItems: "center",
+    alignSelf: "center",
+    marginTop: 10,
+    width: "50%",
+    padding: 10,
+    backgroundColor: "blue",
+    justifyContent: "center",
+    borderWidth: 2,
+    borderRadius: 10,
+  },
+});
